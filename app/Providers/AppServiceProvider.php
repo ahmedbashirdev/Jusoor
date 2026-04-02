@@ -5,9 +5,7 @@ namespace App\Providers;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
-use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,10 +16,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Scramble::routes(function (Route $route) {
-            return Str::startsWith($route->uri, 'api/');
-        });
-
+        /*
+         * Use Scramble's default route filter (matches config('scramble.api_path', 'api')).
+         * A custom `Str::startsWith(..., 'api/')` filter can exclude routes on some
+         * servers if route URIs differ slightly; the default matcher is aligned with
+         * how Laravel registers `routes/api.php` routes.
+         */
         Scramble::configure()
             ->withDocumentTransformers(function (OpenApi $openApi) {
                 $openApi->secure(

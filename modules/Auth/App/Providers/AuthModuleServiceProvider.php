@@ -16,6 +16,7 @@ class AuthModuleServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'auth');
 
-        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
+        // API routes are registered in routes/api.php (required for reliable
+        // route caching and OpenAPI generation on all environments).
     }
 }
