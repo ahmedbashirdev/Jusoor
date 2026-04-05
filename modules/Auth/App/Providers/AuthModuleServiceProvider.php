@@ -13,7 +13,9 @@ class AuthModuleServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        // Core Auth tables are migrated from database/migrations/ so they always
+        // run on case-sensitive servers (see ModuleServiceProvider App/ path).
+
         $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'auth');
 
         // API routes are registered in routes/api.php (required for reliable

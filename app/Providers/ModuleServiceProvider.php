@@ -16,7 +16,11 @@ class ModuleServiceProvider extends ServiceProvider
         }
 
         foreach (File::directories($modulesPath) as $modulePath) {
-            $providersPath = $modulePath . '/app/Providers';
+            // PSR-4 uses `App`; Linux filesystems are case-sensitive — `app` would not match.
+            $providersPath = $modulePath . '/App/Providers';
+            if (! File::isDirectory($providersPath)) {
+                $providersPath = $modulePath . '/app/Providers';
+            }
 
             if (! File::isDirectory($providersPath)) {
                 continue;
